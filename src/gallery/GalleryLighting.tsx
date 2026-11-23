@@ -10,17 +10,15 @@ interface GalleryLightingProps {
  * - Soft warm wall-grazing track spotlights creating dramatic falloffs around artwork
  * - Rich shadows cast by objects and furniture onto the marble floor and carpet
  * - Ambient warm golden glow from the PVC cove lighting and crystal chandeliers
- * - Cinematic low light on walls (vignette-style darkness at corners)
+ * - Clean ceilings without harsh light spillage or glare flares
  */
 export function GalleryLighting({ castShadows }: GalleryLightingProps) {
   return (
     <group>
-      {/* 1. Ambient Fill Light - Bright & Crisp to give high contrast to Royal Navy walls */}
-      <ambientLight color="#f5eadc" intensity={0.62} />
+      {/* 1. Ambient Fill Light - Crisp & Rich Contrast */}
+      <ambientLight color="#f5eadc" intensity={0.58} />
 
-      {/* 2. Primary Architectural Overhead Key Light
-          Positioned directly above the center of the hall to cast true-to-geometry vertical shadows
-          directly beneath objects (matching realistic silhouettes without angular distortion) */}
+      {/* 2. Primary Architectural Overhead Key Light */}
       <directionalLight
         position={[0.3, 14.8, -7.0]}
         target-position={[0, 0, -7.0]}
@@ -45,131 +43,88 @@ export function GalleryLighting({ castShadows }: GalleryLightingProps) {
         intensity={0.3}
       />
 
-      {/* 4. Left Wall (13 Founders) - Wall-Grazing Track Spotlights */}
-      {[-20, -15.5, -10, -4.5, 0.5, 5.5].map((z, i) => (
-        <group key={`left-spot-${i}`} position={[-5.0, 5.8, z]}>
-          <spotLight
-            position={[0, 0, 0]}
-            target-position={[-2.4, -3.5, 0]}
-            color="#ffe8c8"
-            intensity={24}
-            angle={0.6}
-            penumbra={0.85}
-            distance={10.5}
-            decay={2}
-          />
-        </group>
+      {/* 4. Left Wall (Founders Wing) -
+          Each founder portrait has its own dedicated gallery frame downlight in FoundersWing.tsx.
+          Ceiling-washing spotlights have been removed to eliminate harsh light cones on the upper ceiling. */}
+
+      {/* 5. Right Wall (History & Archives Salon) -
+          Directly illuminated by the Active Track Spotlights on the horizontal beam in HistoryArchivesWing.tsx. */}
+
+      {/* 6. Soft Warm Cream Downlights Along Central Red Carpet Aisle */}
+      {[5.0, 0.0, -5.0, -10.0].map((az, ai) => (
+        <spotLight
+          key={`aisle-downlight-${ai}`}
+          position={[0, 6.5, az]}
+          target-position={[0, 0, az]}
+          color="#fff5e4"
+          intensity={42}
+          angle={0.62}
+          penumbra={0.75}
+          distance={11.0}
+          decay={2}
+        />
       ))}
 
-      {/* 5. Right Wall (History & Archives Salon) - Track Spotlights */}
-      {[-20, -15.5, -10, -4.5, 0.5, 5.5].map((z, i) => (
-        <group key={`right-spot-${i}`} position={[5.0, 5.8, z]}>
-          <spotLight
-            position={[0, 0, 0]}
-            target-position={[2.4, -3.5, 0]}
-            color="#ffe8c8"
-            intensity={24}
-            angle={0.6}
-            penumbra={0.85}
-            distance={10.5}
-            decay={2}
-          />
-        </group>
-      ))}
-
-      {/* 7. Dedicated Warm Yellow Spotlights for Campus Maket & Muladi Dome (Lampu Gantung Sorot Kuning) */}
+      {/* 8. Ceremonial Podium Stage Accent Downlight (Soft Warm Cream) */}
       <spotLight
-        position={[0, 5.2, -3.5]}
-        target-position={[0, 0.9, -3.5]}
-        color="#ffdf88"
-        intensity={68}
-        angle={0.58}
-        penumbra={0.65}
-        distance={10.0}
-        decay={2}
-      />
-      {/* Front & Rear Maket Table Warm Accents */}
-      <spotLight
-        position={[0, 5.2, -1.9]}
-        target-position={[0, 0.85, -1.9]}
-        color="#ffe79e"
-        intensity={45}
-        angle={0.52}
-        penumbra={0.7}
-        distance={9.5}
-        decay={2}
-      />
-      <spotLight
-        position={[0, 5.2, -5.1]}
-        target-position={[0, 0.85, -5.1]}
-        color="#ffe79e"
-        intensity={45}
-        angle={0.52}
-        penumbra={0.7}
-        distance={9.5}
-        decay={2}
-      />
-
-      {/* 8. Ceremonial Podium Stage Accent Light */}
-      <spotLight
-        position={[0, 6.8, -15.0]}
-        target-position={[0, 2.2, -18.2]}
-        color="#fff4da"
-        intensity={55}
-        angle={0.58}
-        penumbra={0.72}
-        distance={13.0}
+        position={[0, 7.2, -15.5]}
+        target-position={[0, 1.8, -18.2]}
+        color="#fff6e8"
+        intensity={50}
+        angle={0.62}
+        penumbra={0.75}
+        distance={14.0}
         decay={2}
       />
 
       {/* 9. Dedicated Spotlight on the Grand Prasasti Pendirian Undip */}
       <spotLight
-        position={[-3.8, 6.2, -15.0]}
+        position={[-3.8, 6.5, -15.2]}
         target-position={[-3.8, 1.2, -18.2]}
-        color="#fff4d4"
-        intensity={48}
-        angle={0.5}
-        penumbra={0.65}
-        distance={12.0}
+        color="#fff6e6"
+        intensity={45}
+        angle={0.52}
+        penumbra={0.7}
+        distance={12.5}
         decay={2}
       />
 
-      {/* 10. Grand Focal Back Wall Illumination: Logo Undip & "Universitas Diponegoro" Typography */}
+      {/* 10. Grand Focal Back Wall Illumination: Logo Undip, Ivory Granite & "Universitas Diponegoro"
+          Calibrated softly so there is zero specular glare or white hotspots on the honed stone slab */}
       <spotLight
-        position={[0, 7.2, -19.5]}
-        target-position={[0, 4.8, -25.8]}
-        color="#fff9ec"
-        intensity={65}
+        position={[0, 7.4, -19.0]}
+        target-position={[0, 4.6, -25.8]}
+        color="#fff3e2"
+        intensity={26}
         angle={0.68}
-        penumbra={0.75}
-        distance={15.0}
+        penumbra={0.9}
+        distance={16.0}
         decay={2}
       />
 
-      {/* Back Wall Architectural Wall-Washing Flood Lights (Eliminating dark gloomy back) */}
-      {[-4.6, 0, 4.6].map((wx, wi) => (
+      {/* Back Wall Architectural Wall-Washing Flood Lights (Even, diffuse warm tone) */}
+      {[-5.0, -2.5, 0, 2.5, 5.0].map((wx, wi) => (
         <spotLight
           key={`back-wash-${wi}`}
-          position={[wx, 7.6, -21.0]}
-          target-position={[wx, 4.2, -25.8]}
-          color="#ffeed0"
-          intensity={40}
-          angle={0.72}
-          penumbra={0.8}
-          distance={14.0}
+          position={[wx, 7.8, -20.5]}
+          target-position={[wx, 4.0, -25.8]}
+          color="#fff5e8"
+          intensity={18}
+          angle={0.75}
+          penumbra={0.92}
+          distance={15.0}
           decay={2}
         />
       ))}
 
-      {/* 11. Warm Corner Uplights & Fills at the Back Corners */}
-      <pointLight position={[-6.2, 3.2, -24.0]} color="#ffeed8" intensity={22} distance={10} decay={2} />
-      <pointLight position={[6.2, 3.2, -24.0]} color="#ffeed8" intensity={22} distance={10} decay={2} />
+      {/* 11. Soft Central Ambient Bounce for the Back Ceremonial Zone (No localized glare spots on wall) */}
+      <pointLight position={[0, 5.2, -21.0]} color="#fff3df" intensity={18} distance={12} decay={2} />
 
       {/* 12. Entrance Area Welcome Warm Light */}
       <pointLight
         position={[0, 5.5, 10.5]}
         color="#ffeedd"
-        intensity={20}
+        intensity={22}
         distance={12}
         decay={2}
       />
