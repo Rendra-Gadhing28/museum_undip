@@ -46,7 +46,7 @@ function useIsMobile(): boolean {
  * - Added 3D assets: Archival bookshelves, glass tables, visitor armchairs
  * - Aesthetic museum mood lighting & warm downlights
  */
-export function GalleryScene() {
+export function Zone1() {
   const isMobile = useIsMobile()
   const [selectedExhibit, setSelectedExhibit] = useState<SelectedExhibit | null>(null)
   const [hoveredId, setHoveredId] = useState<string | null>(null)
@@ -211,3 +211,5 @@ export function GalleryScene() {
     </div>
   )
 }
+
+export { Zone1 as Zone1Scene, Zone1 as GalleryScene }
